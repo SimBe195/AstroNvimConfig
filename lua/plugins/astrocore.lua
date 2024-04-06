@@ -1,5 +1,3 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- AstroCore provides a central place to modify mappings, vim options, autocommands, and more!
 -- Configuration documentation can be found with `:h astrocore`
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
@@ -70,7 +68,43 @@ return {
         ["<Leader>b"] = { desc = "Buffers" },
         -- quick save
         -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
+        -- overwrite Astro mappings to follow symlinks always
+        ["<leader>ff"] = {
+          function() require("telescope.builtin").find_files { follow = true } end,
+          desc = "Find files",
+        },
+        ["<leader>fF"] = {
+          function() require("telescope.builtin").find_files { hidden = true, follow = true, no_ignore = true } end,
+          desc = "Find all files",
+        },
+        ["<leader>fw"] = {
+          function()
+            require("telescope.builtin").live_grep {
+              additional_args = function(args) return vim.list_extend(args, { "-L" }) end,
+            }
+          end,
+          desc = "Find words",
+        },
+        ["<leader>fW"] = {
+          function()
+            require("telescope.builtin").live_grep {
+              additional_args = function(args) return vim.list_extend(args, { "--hidden", "-L", "--no-ignore" }) end,
+            }
+          end,
+          desc = "Find words in all files",
+        },
+        ["p"] = { "<Plug>(YankyPutAfter)" },
+        ["P"] = { "<Plug>(YankyPutBefore)" },
+        ["gp"] = { "<Plug>(YankyGPutAfter)" },
+        ["gP"] = { "<Plug>(YankyGPutBefore)" },
+        ["<c-p>"] = { "<Plug>(YankyPreviousEntry)" },
+        ["<c-n>"] = { "<Plug>(YankyNextEntry)" },
+        ["s"] = { "<Plug>(leap)" },
+        ["S"] = { "<Plug>(leap-from-window)" },
       },
+      -- i = {
+      --   ["ij"] = { "<esc>" },
+      -- },
       t = {
         -- setting a mapping to false will disable it
         -- ["<esc>"] = false,
